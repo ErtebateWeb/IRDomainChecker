@@ -1,3 +1,4 @@
+import sys
 import requests
 from bs4 import BeautifulSoup
 
@@ -35,19 +36,26 @@ def read_domains_from_file(file_path):
         return []
 
 def main():
-    file_path = "domains.txt"  # مسیر فایل حاوی دامنه‌ها
-    domains = read_domains_from_file(file_path)
-    
-    if not domains:
-        print("هیچ دامنه‌ای در فایل یافت نشد.")
-        return
-    
-    for domain in domains:
-        # domain_with_ir = domain + ".ir"  # اضافه کردن پسوند .ir
-        domain_with_ir = domain 
+    if len(sys.argv) == 2:
+        domain_with_ir = sys.argv[1]
+        # check_domain_status(domain)
         result = check_domain_status(domain_with_ir)
         print(result)
         print("-" * 50)  # جداکننده برای خوانایی بیشتر
+    else:
+        file_path = "domains.txt"  # مسیر فایل حاوی دامنه‌ها
+        domains = read_domains_from_file(file_path)
+        
+        if not domains:
+            print("هیچ دامنه‌ای در فایل یافت نشد.")
+            return
+        
+        for domain in domains:
+            # domain_with_ir = domain + ".ir"  # اضافه کردن پسوند .ir
+            domain_with_ir = domain 
+            result = check_domain_status(domain_with_ir)
+            print(result)
+            print("-" * 50)  # جداکننده برای خوانایی بیشتر
 
 if __name__ == "__main__":
     main()
